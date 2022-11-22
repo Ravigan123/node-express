@@ -1,0 +1,51 @@
+@media (min-width: 992px) {
+	.login {
+		position: relative;
+		min-height: 100vh;
+		// margin: 5rem;
+		margin-top: 0;
+		// background-color: var(--lightblue); // zmien kolor
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		// border: 1px solid #000;
+		// transition: 0.5;
+
+		&__img {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			margin-bottom: 1.5rem;
+		}
+
+		&__header {
+			margin-bottom: 3rem;
+			font-size: 2.5rem;
+			text-align: center;
+		}
+
+		&__form {
+			width: 50%;
+			padding: 5rem;
+			margin: 20rem;
+			border: 1px solid rgb(207, 207, 207);
+			border-radius: 8px;
+		}
+
+		&__input {
+			margin-bottom: 2rem;
+			font-size: 1.4rem;
+		}
+
+		&__bottom {
+			font-size: 1.4rem;
+		}
+
+		&__bnt {
+			margin-top: 1rem;
+			font-size: 1.4rem;
+			text-transform: none;
+		}
+	}
+}

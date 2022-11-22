@@ -1,0 +1,75 @@
+/* FONTS */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap");
+
+:root {
+	/* Colors */
+	--pink: #ff0066;
+	--lightpink: #ffcce0;
+	--blue: #1a1aff;
+	--lightblue: #ccccff;
+	--color: #4d4d4d;
+	--custom: #1a1aff;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+html {
+	font-size: 62.5%;
+	scroll-behavior: smooth;
+}
+
+.login {
+	position: relative;
+	min-height: 100vh;
+	margin-top: 5rem;
+
+	// display: flex;
+	// flex-direction: column;
+	// align-items: center;
+	// justify-content: center;
+	// border: 1px solid #000;
+	// transition: 0.5;
+
+	&__img {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin-bottom: 1rem;
+	}
+
+	&__header {
+		margin-bottom: 3rem;
+		font-size: 2.5rem;
+		text-align: center;
+	}
+
+	&__form {
+		// width: 100%;
+		padding: 1.5rem;
+	}
+
+	&__input {
+		margin-bottom: 2rem;
+		font-size: 1.2rem;
+	}
+
+	&__bottom {
+		font-size: 1.2rem;
+	}
+
+	&__bnt {
+		margin-top: 1rem;
+		font-size: 1.2rem;
+		text-transform: none;
+	}
+}
+
+@import "./small";
+@import "./medium";
+@import "./large";
