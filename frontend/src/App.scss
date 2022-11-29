@@ -55,7 +55,7 @@ html {
 	}
 
 	&__input {
-		margin-bottom: 2rem;
+		// margin-bottom: 2rem;
 		font-size: 1.2rem;
 	}
 
@@ -67,6 +67,10 @@ html {
 		margin-top: 1rem;
 		font-size: 1.2rem;
 		text-transform: none;
+	}
+	&__valid {
+		position: relative !important;
+		font-size: 1.2rem;
 	}
 }
 

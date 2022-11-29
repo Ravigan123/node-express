@@ -8,106 +8,101 @@ import { useNavigate } from "react-router-dom";
 import Alert from "react-bootstrap/Alert";
 
 function LoginForm() {
-	const [name, setName] = useState("");
-	const [hash, setHash] = useState("");
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
 	const [ip, setIp] = useState("");
 	const [errors, setErrors] = useState({});
 	const navigate = useNavigate();
 
-	async function addToBase(location) {
+	async function loginInBase(user) {
+		console.log(process.env.REACT_APP_API_URL);
 		let err;
 		try {
-			await axios.post(`${process.env.REACT_APP_API_URL}location`, location);
+			await axios.post(`${process.env.REACT_APP_API_URL}login`, user);
 		} catch (error) {
 			if (error.response.data === undefined)
 				err = "No connection to the server";
 			else err = error.response.data.message;
 		}
+		// console.log(err);
 		return err;
 	}
 
-	const handleName = (event) => {
-		setName(event.target.value);
-		if (!!errors[name])
+	const handleEmail = (event) => {
+		setEmail(event.target.value);
+		if (!!errors[email])
 			setErrors({
 				...errors,
-				[name]: null,
+				[email]: null,
 			});
 	};
-	const handleHash = (event) => {
-		setHash(event.target.value);
-	};
-	const handleIp = (event) => {
-		setIp(event.target.value);
+	const handlePassword = (event) => {
+		setPassword(event.target.value);
 	};
 
 	const validateForm = (backandValid) => {
 		const newErrors = {};
-		if (backandValid === "No connection to the server")
-			newErrors.server = backandValid;
-		if (backandValid === "The given name already exists")
-			newErrors.name = backandValid;
-		if (backandValid === "The given hash already exists")
-			newErrors.hash = backandValid;
+		if (backandValid === "Błędny adres email") newErrors.email = backandValid;
+		if (backandValid === "Błędne hasło") newErrors.password = backandValid;
+		if (backandValid === "Konto nie aktywne") newErrors.active = backandValid;
 
 		return newErrors;
 	};
 
-	async function addLocation(e) {
+	async function login(e) {
 		e.preventDefault();
 
-		const location = {
-			name_location: name,
-			hash_location: hash,
-			ip_location: ip,
+		const user = {
+			email,
+			password,
 		};
 
-		const backandValid = await addToBase(location);
+		const backandValid = await loginInBase(user);
 		const formErrors = validateForm(backandValid);
 
 		if (Object.keys(formErrors).length > 0) setErrors(formErrors);
-		else navigate(-1);
+		else navigate("home");
 	}
 
 	return (
 		<Container>
 			<div className='login'>
-				<Form onSubmit={addLocation} className='login__form'>
+				<Form onSubmit={login} className='login__form'>
 					<div className='login__top'>
 						<img className='login__img' src='' alt='logo'></img>
 						<h1 className='login__header'>Zaloguj się</h1>
 					</div>
-					<Form.Group controlId='validationCustomName'>
+					<Form.Group controlId='validationCustomEmail' className='mb-4'>
 						<Form.Control
 							size='lg'
 							className='login__input'
 							type='text'
 							placeholder='Email'
-							name='name'
-							value={name}
+							name='email'
+							value={email}
 							required
-							isInvalid={!!errors.name}
-							onChange={handleName}
+							isInvalid={!!errors.email}
+							onChange={handleEmail}
 						/>
-						<Form.Control.Feedback type='invalid'>
-							{errors.name}
+						<Form.Control.Feedback type='invalid' className='login__valid'>
+							{errors.email}
 						</Form.Control.Feedback>
 					</Form.Group>
 
-					<Form.Group controlId='validationCustomHash'>
+					<Form.Group controlId='validationCustomPassword' className='mb-4'>
 						<Form.Control
 							size='lg'
 							className='login__input'
 							type='password'
 							placeholder='Hasło'
 							name='password'
-							value={hash}
+							value={password}
 							required
-							isInvalid={!!errors.hash}
-							onChange={handleHash}
+							isInvalid={!!errors.password}
+							onChange={handlePassword}
 						/>
-						<Form.Control.Feedback type='invalid'>
-							{errors.hash}
+						<Form.Control.Feedback type='invalid' className='login__valid'>
+							{errors.password}
 						</Form.Control.Feedback>
 					</Form.Group>
 
@@ -123,6 +118,52 @@ function LoginForm() {
 						Zaloguj się
 					</Button>
 				</Form>
+
+				{/* <Form onSubmit={login} className='mt-5'>
+				{errors.location !== undefined && (
+					<Alert variant='danger'>{errors.location}</Alert>
+				)}
+
+				<Form.Group controlId='validationCustomName'>
+					<FloatingLabel controlId='floatingName' label='Name' className='mb-3'>
+						<Form.Control
+							className='inputs'
+							type='text'
+							placeholder='email'
+							name='email'
+							value={email}
+							required
+							isInvalid={!!errors.email}
+							onChange={handleEmail}
+						/>
+						<Form.Control.Feedback type='invalid' className='cos'>
+							{errors.email}
+						</Form.Control.Feedback>
+					</FloatingLabel>
+				</Form.Group>
+
+				<Form.Group controlId='validationCustomIp'>
+					<FloatingLabel controlId='floatingIp' label='Ip' className='mb-3'>
+						<Form.Control
+							className='inputs'
+							type='text'
+							placeholder='password'
+							name='password'
+							value={password}
+							required
+							isInvalid={!!errors.password}
+							onChange={handlePassword}
+						/>
+						<Form.Control.Feedback type='invalid'>
+							{errors.password}
+						</Form.Control.Feedback>
+					</FloatingLabel>
+				</Form.Group>
+
+				<Button className='float-end bnt-action' type='submit'>
+					Add
+				</Button>
+			</Form> */}
 			</div>
 		</Container>
 	);

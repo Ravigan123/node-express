@@ -7,6 +7,7 @@ const randomstring = require("randomstring");
 
 class UserController {
 	async login(req, res) {
+		console.log(req.body);
 		const { email, password } = req.body;
 		let userCheck;
 		try {
@@ -15,7 +16,7 @@ class UserController {
 				.where("email", email);
 
 			if (userCheck.length === 0) {
-				return res.status(401).json({ message: "Błędny login lub hasło" });
+				return res.status(401).json({ message: "Błędny adres email" });
 			}
 		} catch (error) {
 			console.log(error);
@@ -28,7 +29,7 @@ class UserController {
 		);
 
 		if (!validPassword)
-			return res.status(401).json({ message: "Błędny login lub hasło" });
+			return res.status(401).json({ message: "Błędne hasło" });
 
 		if (parseInt(userCheck[0]["isActive"]) === 0) {
 			return res.status(401).json({ message: "Konto nie aktywne" });
