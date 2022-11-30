@@ -6,6 +6,7 @@ import FloatingLabel from "react-bootstrap/FloatingLabel";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Alert from "react-bootstrap/Alert";
+import { MDBInput } from "mdb-react-ui-kit";
 
 function LoginForm() {
 	const [email, setEmail] = useState("");
@@ -65,61 +66,45 @@ function LoginForm() {
 	}
 
 	return (
-		<Container>
-			<div className='login'>
-				<Form onSubmit={login} className='login__form'>
-					<div className='login__top'>
-						<img className='login__img' src='' alt='logo'></img>
-						<h1 className='login__header'>Zaloguj się</h1>
-					</div>
-					<Form.Group controlId='validationCustomEmail' className='mb-4'>
-						<Form.Control
-							size='lg'
-							className='login__input'
-							type='text'
-							placeholder='Email'
-							name='email'
-							value={email}
-							required
-							isInvalid={!!errors.email}
-							onChange={handleEmail}
-						/>
-						<Form.Control.Feedback type='invalid' className='login__valid'>
-							{errors.email}
-						</Form.Control.Feedback>
-					</Form.Group>
+		<Container className='login'>
+			<Form onSubmit={login} className='login__form'>
+				<div className='login__top'>
+					<h1 className='login__logo'>Nazwa</h1>
+					<h2 className='login__header'>Zaloguj się</h2>
+					{errors.type !== undefined && (
+						<Alert variant='danger'>{errors.type}</Alert>
+					)}
+				</div>
+				<div className='login__inputs'>
+					<MDBInput
+						className='login__input'
+						label='Email input'
+						id='typeEmail'
+						type='email'
+						name='email'
+					/>
+					<MDBInput
+						className='login__input'
+						label='Password input'
+						id='typePassword'
+						type='password'
+						name='password'
+					/>
+				</div>
+				<div className='login__bottom'>
+					<a className='login__register' href='/rejestracja'>
+						Nie mam konta
+					</a>
+					<a className='login__forgot float-end' href=''>
+						Zapomniałem hasło
+					</a>
+				</div>
+				<Button className='float-end bnt-action login__bnt' type='submit'>
+					Zaloguj się
+				</Button>
+			</Form>
 
-					<Form.Group controlId='validationCustomPassword' className='mb-4'>
-						<Form.Control
-							size='lg'
-							className='login__input'
-							type='password'
-							placeholder='Hasło'
-							name='password'
-							value={password}
-							required
-							isInvalid={!!errors.password}
-							onChange={handlePassword}
-						/>
-						<Form.Control.Feedback type='invalid' className='login__valid'>
-							{errors.password}
-						</Form.Control.Feedback>
-					</Form.Group>
-
-					<div className='login__bottom'>
-						<a className='login__register' href='/rejestracja'>
-							Nie mam konta
-						</a>
-						<a className='login__forgot float-end' href=''>
-							Zapomniałem hasło
-						</a>
-					</div>
-					<Button className='float-end bnt-action login__bnt' type='submit'>
-						Zaloguj się
-					</Button>
-				</Form>
-
-				{/* <Form onSubmit={login} className='mt-5'>
+			{/* <Form onSubmit={login} className='mt-5'>
 				{errors.location !== undefined && (
 					<Alert variant='danger'>{errors.location}</Alert>
 				)}
@@ -164,7 +149,6 @@ function LoginForm() {
 					Add
 				</Button>
 			</Form> */}
-			</div>
 		</Container>
 	);
 }

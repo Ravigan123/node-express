@@ -25,55 +25,96 @@ html {
 }
 
 .login {
-	position: relative;
-	min-height: 100vh;
-	margin-top: 5rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
 
-	// display: flex;
-	// flex-direction: column;
-	// align-items: center;
-	// justify-content: center;
-	// border: 1px solid #000;
-	// transition: 0.5;
-
-	&__img {
+	&__form {
 		display: flex;
+		flex-direction: column;
 		justify-content: center;
 		align-items: center;
+		width: 100%;
+	}
+
+	&__top {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+
+	&__logo {
+		font-size: 2.4rem;
 		margin-bottom: 1rem;
 	}
 
 	&__header {
-		margin-bottom: 3rem;
-		font-size: 2.5rem;
-		text-align: center;
+		font-size: 2.4rem;
 	}
 
-	&__form {
-		// width: 100%;
-		padding: 1.5rem;
+	&__inputs {
+		font-size: 1.6rem;
+		width: 100%;
 	}
 
 	&__input {
-		// margin-bottom: 2rem;
-		font-size: 1.2rem;
-	}
-
-	&__bottom {
-		font-size: 1.2rem;
-	}
-
-	&__bnt {
-		margin-top: 1rem;
-		font-size: 1.2rem;
-		text-transform: none;
-	}
-	&__valid {
-		position: relative !important;
-		font-size: 1.2rem;
+		font-size: 1.8rem;
+		margin-bottom: 1.5rem;
 	}
 }
 
-@import "./small";
-@import "./medium";
-@import "./large";
+// .login {
+// 	position: relative;
+// 	min-height: 100vh;
+// 	margin-top: 5rem;
+
+// 	// display: flex;
+// 	// flex-direction: column;
+// 	// align-items: center;
+// 	// justify-content: center;
+// 	// border: 1px solid #000;
+// 	// transition: 0.5;
+
+// 	&__img {
+// 		display: flex;
+// 		justify-content: center;
+// 		align-items: center;
+// 		margin-bottom: 1rem;
+// 	}
+
+// 	&__header {
+// 		margin-bottom: 3rem;
+// 		font-size: 2.5rem;
+// 		text-align: center;
+// 	}
+
+// 	&__form {
+// 		// width: 100%;
+// 		padding: 1.5rem;
+// 	}
+
+// 	&__input {
+// 		// margin-bottom: 2rem;
+// 		font-size: 1.2rem;
+// 	}
+
+// 	&__bottom {
+// 		font-size: 1.2rem;
+// 	}
+
+// 	&__bnt {
+// 		margin-top: 1rem;
+// 		font-size: 1.2rem;
+// 		text-transform: none;
+// 	}
+// 	&__valid {
+// 		position: relative !important;
+// 		font-size: 1.2rem;
+// 	}
+// }
+
+// @import "./small";
+// @import "./medium";
+// @import "./large";
