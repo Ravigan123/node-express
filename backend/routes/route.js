@@ -10,14 +10,20 @@ const CourseController = require("../controllers/CourseController");
 
 //user
 router.get("/", auth, UserController.test);
+router.get("/isLogged", UserController.isLogged);
 
 router.post("/login", isLogged, UserController.login);
 router.get("/logout", UserController.logout);
 router.post("/register", isLogged, UserController.registerUser);
-router.get("/confirm/:id:token", isLogged, UserController.confirmUser);
+router.get("/confirm/:token/:id", isLogged, UserController.confirmUser);
 router.post("/forgot-password", isLogged, UserController.sendForgotPassword);
+router.get(
+	"/reset-password/:token/:id",
+	isLogged,
+	UserController.redirectForgotPassword
+);
 router.put(
-	"/reset-password/:id:token",
+	"/reset-password/:token/:id",
 	isLogged,
 	UserController.changeForgotPassword
 );

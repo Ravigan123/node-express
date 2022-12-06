@@ -7,16 +7,38 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Alert from "react-bootstrap/Alert";
 import { MDBInput } from "mdb-react-ui-kit";
+import { useLocation } from "react-router-dom";
 
 function LoginForm() {
+	const navigate = useNavigate();
+	const location = useLocation();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const [activeInfo, setActiveInfo] = useState(location.state ? true : false);
 	const [ip, setIp] = useState("");
 	const [errors, setErrors] = useState({});
-	const navigate = useNavigate();
+
+	useEffect(() => {
+		isLogged();
+	}, []);
+
+	async function isLogged() {
+		let err;
+		try {
+			await axios
+				.get(`${process.env.REACT_APP_API_URL}isLogged`)
+				.then((res) => {
+					console.log(res.data);
+				});
+		} catch (error) {
+			if (error.response.data === undefined)
+				err = "No connection to the server";
+			else err = error.response.data.message;
+		}
+		return err;
+	}
 
 	async function loginInBase(user) {
-		console.log(process.env.REACT_APP_API_URL);
 		let err;
 		try {
 			await axios.post(`${process.env.REACT_APP_API_URL}login`, user);
@@ -25,7 +47,6 @@ function LoginForm() {
 				err = "No connection to the server";
 			else err = error.response.data.message;
 		}
-		// console.log(err);
 		return err;
 	}
 
@@ -52,17 +73,18 @@ function LoginForm() {
 
 	async function login(e) {
 		e.preventDefault();
-
+		setActiveInfo(false);
+		setPassword("");
 		const user = {
 			email,
 			password,
 		};
-
+		console.log(user);
 		const backandValid = await loginInBase(user);
 		const formErrors = validateForm(backandValid);
 
 		if (Object.keys(formErrors).length > 0) setErrors(formErrors);
-		else navigate("home");
+		else navigate("/");
 	}
 
 	return (
@@ -71,8 +93,25 @@ function LoginForm() {
 				<div className='login__top'>
 					<h1 className='login__logo'>Nazwa</h1>
 					<h2 className='login__header'>Zaloguj się</h2>
-					{errors.type !== undefined && (
-						<Alert variant='danger'>{errors.type}</Alert>
+					{activeInfo && (
+						<Alert className='login__alert' variant='success'>
+							Konto zostało utworzone. Sprawdź pocztę, aby aktywować.
+						</Alert>
+					)}
+					{errors.email !== undefined && (
+						<Alert className='login__alert' variant='danger'>
+							{errors.email}
+						</Alert>
+					)}
+					{errors.password !== undefined && (
+						<Alert className='login__alert' variant='danger'>
+							{errors.password}
+						</Alert>
+					)}
+					{errors.active !== undefined && (
+						<Alert className='login__alert' variant='danger'>
+							{errors.active}
+						</Alert>
 					)}
 				</div>
 				<div className='login__inputs'>
@@ -82,6 +121,9 @@ function LoginForm() {
 						id='typeEmail'
 						type='email'
 						name='email'
+						value={email}
+						required
+						onChange={handleEmail}
 					/>
 					<MDBInput
 						className='login__input'
@@ -89,66 +131,25 @@ function LoginForm() {
 						id='typePassword'
 						type='password'
 						name='password'
+						value={password}
+						required
+						onChange={handlePassword}
 					/>
 				</div>
 				<div className='login__bottom'>
 					<a className='login__register' href='/rejestracja'>
 						Nie mam konta
 					</a>
-					<a className='login__forgot float-end' href=''>
+					<a className='login__register float-end' href='/zapomnialem-haslo'>
 						Zapomniałem hasło
 					</a>
 				</div>
-				<Button className='float-end bnt-action login__bnt' type='submit'>
-					Zaloguj się
-				</Button>
+				<div className='login__bnt'>
+					<Button className=' bnt-action login__bnt-login' type='submit'>
+						Zaloguj
+					</Button>
+				</div>
 			</Form>
-
-			{/* <Form onSubmit={login} className='mt-5'>
-				{errors.location !== undefined && (
-					<Alert variant='danger'>{errors.location}</Alert>
-				)}
-
-				<Form.Group controlId='validationCustomName'>
-					<FloatingLabel controlId='floatingName' label='Name' className='mb-3'>
-						<Form.Control
-							className='inputs'
-							type='text'
-							placeholder='email'
-							name='email'
-							value={email}
-							required
-							isInvalid={!!errors.email}
-							onChange={handleEmail}
-						/>
-						<Form.Control.Feedback type='invalid' className='cos'>
-							{errors.email}
-						</Form.Control.Feedback>
-					</FloatingLabel>
-				</Form.Group>
-
-				<Form.Group controlId='validationCustomIp'>
-					<FloatingLabel controlId='floatingIp' label='Ip' className='mb-3'>
-						<Form.Control
-							className='inputs'
-							type='text'
-							placeholder='password'
-							name='password'
-							value={password}
-							required
-							isInvalid={!!errors.password}
-							onChange={handlePassword}
-						/>
-						<Form.Control.Feedback type='invalid'>
-							{errors.password}
-						</Form.Control.Feedback>
-					</FloatingLabel>
-				</Form.Group>
-
-				<Button className='float-end bnt-action' type='submit'>
-					Add
-				</Button>
-			</Form> */}
 		</Container>
 	);
 }
