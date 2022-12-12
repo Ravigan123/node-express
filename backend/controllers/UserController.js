@@ -1,19 +1,13 @@
 const User = require("../models/User");
 const sendEmail = require("../sendEmail.js");
 const jwt = require("jsonwebtoken");
+const cookie = require("cookie");
 const bcrypt = require("bcrypt");
 const passwordValidator = require("password-validator");
 const randomstring = require("randomstring");
 const validatorEmail = require("email-validator");
 
 class UserController {
-	isLogged(req, res) {
-		// res.redirect(`${process.env.APP_URL}/`);
-		console.log(req.session);
-		if (typeof req.session.user !== "undefined")
-			return res.status(200).json({ message: "tak" });
-		else return res.status(200).json({ message: "nie" });
-	}
 	async login(req, res) {
 		const { email, password } = req.body;
 
@@ -43,16 +37,74 @@ class UserController {
 			return res.status(401).json({ message: "Konto nie aktywne" });
 		}
 
-		req.session.user = userCheck[0]["id_hash"];
-		console.log(req.session);
-		res.status(200).json({ message: "zalogowany" });
-		// res.redirect("/")
+		const payload = { id: userCheck[0]["id_hash"] };
+		const accessToken = jwt.sign(payload, process.env.SECRET_TOKEN, {
+			expiresIn: 30000,
+		});
+		const refreshToken = jwt.sign(
+			{ id: userCheck[0]["id_hash"] },
+			process.env.REFRESH_TOKEN,
+			{
+				expiresIn: 525600,
+			}
+		);
+
+		res.cookie("JWT", accessToken, {
+			maxAge: 86400000,
+			httpOnly: true,
+		});
+
+		// res.setHeader("Set-Cookie", cookie.serialize("jwt", accessToken));
+		// res.redirect("/");
+
+		res.send({ accessToken, refreshToken });
+		// res
+		// 	.status(200)
+		// 	.json({ accessToken: accessToken, refreshToken: refreshToken });
+	}
+
+	async refreshToken(req, res) {
+		const refreshToken = req.body.token;
+
+		if (!refreshToken) {
+			return res.status(401);
+		}
+
+		// TODO: Check if refreshToken exists in DB
+
+		const validToken = await jwt.verify(
+			refreshToken,
+			process.env.REFRESH_TOKEN
+		);
+
+		if (!validToken) {
+			return res.status(403);
+		}
+
+		const email = "bialy199912@gmail.com";
+		const userCheck = await User.query()
+			.select("id", "id_hash", "password", "isActive")
+			.where("email", email);
+
+		const payload = { id: userCheck[0]["id_hash"] };
+
+		const accessToken = jwt.sign(payload, process.env.SECRET_TOKEN, {
+			expiresIn: 5,
+		});
+		res.cookie("JWT", accessToken, {
+			maxAge: 86400000,
+			httpOnly: true,
+		});
+
+		res.send({ accessToken });
 	}
 
 	async test(req, res) {
-		console.log(req.session);
-		res.send("test");
+		// console.log(req.headers);
+		// const cookies = cookie.parse(req.headers.cookie || "");
+		res.status(200).json({ jwt: "git" });
 	}
+
 	async logout(req, res) {
 		req.session.destroy();
 		// res.send("wylogowany")

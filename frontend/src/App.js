@@ -2,10 +2,12 @@ import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "./App.scss";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Home from "./components/Home";
 import LoginForm from "./components/Auth/LoginForm";
 import RegisterForm from "./components/Auth/RegisterForm";
 import ForgotPassword from "./components/Auth/ForgotPassword";
 import ResetPassword from "./components/Auth/ResetPassword";
+import PrivateRoutes from "./components/Auth/PrivateRoutes";
 
 function App() {
 	return (
@@ -13,6 +15,9 @@ function App() {
 			<Router>
 				<Routes>
 					{/* <Route path='/' element={<Data />} /> */}
+					<Route element={<PrivateRoutes />}>
+						<Route path='/' element={<Home />} />
+					</Route>
 					<Route path='/logowanie' element={<LoginForm />} />
 					<Route path='/rejestracja' element={<RegisterForm />} />
 					<Route path='/zapomnialem-haslo' element={<ForgotPassword />} />

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const auth = require("../auth");
+const authenticate = require("../authenticate");
 const isLogged = require("../isLogged");
 
 const UserController = require("../controllers/UserController");
@@ -9,10 +9,10 @@ const SaveGoalController = require("../controllers/SaveGoalController");
 const CourseController = require("../controllers/CourseController");
 
 //user
-router.get("/", auth, UserController.test);
-router.get("/isLogged", UserController.isLogged);
+router.get("/test", authenticate, UserController.test);
 
-router.post("/login", isLogged, UserController.login);
+router.post("/login", UserController.login);
+router.post("/refresh", UserController.refreshToken);
 router.get("/logout", UserController.logout);
 router.post("/register", isLogged, UserController.registerUser);
 router.get("/confirm/:token/:id", isLogged, UserController.confirmUser);
@@ -35,35 +35,51 @@ router.delete("/user", UserController.deleteUser);
 // router.put("/change-email/:id", UserController.changeEmail);
 
 //transaction
-router.post("/transakcja", auth, TransactionController.addTransaction);
+router.post("/transakcja", authenticate, TransactionController.addTransaction);
 // router.get(
 // 	"/transakcjaOMiesiac",
 // 	auth,
 // 	TransactionController.getLastMonthTransaction
 // )
-router.get("/transaction", auth, TransactionController.getAllTransaction);
-router.get("/transaction/:id", auth, TransactionController.getOneTransaction);
-router.put("/transaction/:id", auth, TransactionController.updateTransaction);
+router.get(
+	"/transaction",
+	authenticate,
+	TransactionController.getAllTransaction
+);
+router.get(
+	"/transaction/:id",
+	authenticate,
+	TransactionController.getOneTransaction
+);
+router.put(
+	"/transaction/:id",
+	authenticate,
+	TransactionController.updateTransaction
+);
 router.delete(
 	"/transaction/:id",
-	auth,
+	authenticate,
 	TransactionController.deleteTransaction
 );
 
 //save goal
 
-router.post("/save-goal", auth, SaveGoalController.addSaveGoal);
-router.get("/save-goal", auth, SaveGoalController.getAllSaveGoal);
+router.post("/save-goal", authenticate, SaveGoalController.addSaveGoal);
+router.get("/save-goal", authenticate, SaveGoalController.getAllSaveGoal);
 router.get("/save-goal/:id", SaveGoalController.getOneSaveGoal);
-router.put("/save-goal/:id", auth, SaveGoalController.updateSaveGoal);
-router.delete("/save-goal/:id", auth, SaveGoalController.deleteSaveGoal);
+router.put("/save-goal/:id", authenticate, SaveGoalController.updateSaveGoal);
+router.delete(
+	"/save-goal/:id",
+	authenticate,
+	SaveGoalController.deleteSaveGoal
+);
 
 //kursy walut
 
-router.post("/course", auth, CourseController.addCourse);
-router.get("/course", auth, CourseController.getCourse);
+router.post("/course", authenticate, CourseController.addCourse);
+router.get("/course", authenticate, CourseController.getCourse);
 // router.get("/kursy/:id", CourseController.getCourse);
 // router.put("/kursy/:id", CourseController.updateCourse)
-router.delete("/course/:id", auth, CourseController.deleteCourse);
+router.delete("/course/:id", authenticate, CourseController.deleteCourse);
 
 module.exports = router;

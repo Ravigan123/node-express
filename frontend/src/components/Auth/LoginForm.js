@@ -8,8 +8,10 @@ import { useNavigate } from "react-router-dom";
 import Alert from "react-bootstrap/Alert";
 import { MDBInput } from "mdb-react-ui-kit";
 import { useLocation } from "react-router-dom";
+import Cookies from "js-cookie";
 
 function LoginForm() {
+	axios.defaults.withCredentials = true;
 	const navigate = useNavigate();
 	const location = useLocation();
 	const [email, setEmail] = useState("");
@@ -18,30 +20,18 @@ function LoginForm() {
 	const [ip, setIp] = useState("");
 	const [errors, setErrors] = useState({});
 
-	useEffect(() => {
-		isLogged();
-	}, []);
-
-	async function isLogged() {
-		let err;
-		try {
-			await axios
-				.get(`${process.env.REACT_APP_API_URL}isLogged`)
-				.then((res) => {
-					console.log(res.data);
-				});
-		} catch (error) {
-			if (error.response.data === undefined)
-				err = "No connection to the server";
-			else err = error.response.data.message;
-		}
-		return err;
-	}
-
 	async function loginInBase(user) {
 		let err;
 		try {
-			await axios.post(`${process.env.REACT_APP_API_URL}login`, user);
+			await axios
+				.post(`${process.env.REACT_APP_API_URL}login`, user)
+				.then((res) => {
+					console.log(res);
+					const token = Cookies;
+					console.log(token);
+
+					// Cookies.set("access_token", res.data["accessToken"]);
+				});
 		} catch (error) {
 			if (error.response.data === undefined)
 				err = "No connection to the server";
