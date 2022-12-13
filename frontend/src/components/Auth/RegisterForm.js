@@ -9,7 +9,7 @@ import { MDBInput } from "mdb-react-ui-kit";
 import { useNavigate } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 
-function RegisterForm(props) {
+function RegisterForm({ isLogin, setIsLogin }) {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [password2, setPassword2] = useState("");

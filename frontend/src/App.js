@@ -7,18 +7,32 @@ import LoginForm from "./components/Auth/LoginForm";
 import RegisterForm from "./components/Auth/RegisterForm";
 import ForgotPassword from "./components/Auth/ForgotPassword";
 import ResetPassword from "./components/Auth/ResetPassword";
-import PrivateRoutes from "./components/Auth/PrivateRoutes";
+import Cookies from "js-cookie";
+import { AuthContextProvider } from "./components/Auth/AuthContext";
+import ProtectedRoute from "./components/Auth/ProtectedRoute";
 
 function App() {
 	return (
 		<>
-			<Router>
+			<AuthContextProvider>
 				<Routes>
 					{/* <Route path='/' element={<Data />} /> */}
-					<Route element={<PrivateRoutes />}>
-						<Route path='/' element={<Home />} />
-					</Route>
-					<Route path='/logowanie' element={<LoginForm />} />
+					<Route
+						path='/'
+						element={
+							<ProtectedRoute accessBy='auth'>
+								<Home />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path='/logowanie'
+						element={
+							<ProtectedRoute accessBy='no-auth'>
+								<LoginForm />
+							</ProtectedRoute>
+						}
+					/>
 					<Route path='/rejestracja' element={<RegisterForm />} />
 					<Route path='/zapomnialem-haslo' element={<ForgotPassword />} />
 					<Route path='/resetuj-haslo/:token/:id' element={<ResetPassword />} />
@@ -30,7 +44,7 @@ function App() {
 					<Route path='/receiver/create' element={<NewReceiver />} />
 					<Route path='/alert' element={<Alert />} /> */}
 				</Routes>
-			</Router>
+			</AuthContextProvider>
 		</>
 	);
 }

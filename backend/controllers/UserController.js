@@ -37,15 +37,16 @@ class UserController {
 			return res.status(401).json({ message: "Konto nie aktywne" });
 		}
 
+		const expireTime = 10;
 		const payload = { id: userCheck[0]["id_hash"] };
 		const accessToken = jwt.sign(payload, process.env.SECRET_TOKEN, {
-			expiresIn: 30000,
+			expiresIn: expireTime,
 		});
 		const refreshToken = jwt.sign(
 			{ id: userCheck[0]["id_hash"] },
 			process.env.REFRESH_TOKEN,
 			{
-				expiresIn: 525600,
+				expiresIn: 1000,
 			}
 		);
 
@@ -54,10 +55,11 @@ class UserController {
 			httpOnly: true,
 		});
 
+		const id = userCheck[0]["id_hash"];
 		// res.setHeader("Set-Cookie", cookie.serialize("jwt", accessToken));
 		// res.redirect("/");
 
-		res.send({ accessToken, refreshToken });
+		res.send({ accessToken, refreshToken, id });
 		// res
 		// 	.status(200)
 		// 	.json({ accessToken: accessToken, refreshToken: refreshToken });
@@ -65,6 +67,7 @@ class UserController {
 
 	async refreshToken(req, res) {
 		const refreshToken = req.body.token;
+		console.log("object");
 
 		if (!refreshToken) {
 			return res.status(401);
@@ -106,7 +109,7 @@ class UserController {
 	}
 
 	async logout(req, res) {
-		req.session.destroy();
+		res.clearCookie("JWT");
 		// res.send("wylogowany")
 		res.status(200).json({ message: "wylogowany" });
 		// res.redirect("/")

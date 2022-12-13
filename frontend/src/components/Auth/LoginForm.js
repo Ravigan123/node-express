@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
@@ -9,6 +9,7 @@ import Alert from "react-bootstrap/Alert";
 import { MDBInput } from "mdb-react-ui-kit";
 import { useLocation } from "react-router-dom";
 import Cookies from "js-cookie";
+import AuthContext from "./AuthContext";
 
 function LoginForm() {
 	axios.defaults.withCredentials = true;
@@ -19,19 +20,12 @@ function LoginForm() {
 	const [activeInfo, setActiveInfo] = useState(location.state ? true : false);
 	const [ip, setIp] = useState("");
 	const [errors, setErrors] = useState({});
+	const { login1 } = useContext(AuthContext);
 
 	async function loginInBase(user) {
 		let err;
 		try {
-			await axios
-				.post(`${process.env.REACT_APP_API_URL}login`, user)
-				.then((res) => {
-					console.log(res);
-					const token = Cookies;
-					console.log(token);
-
-					// Cookies.set("access_token", res.data["accessToken"]);
-				});
+			const log = await login1(user);
 		} catch (error) {
 			if (error.response.data === undefined)
 				err = "No connection to the server";
@@ -69,7 +63,6 @@ function LoginForm() {
 			email,
 			password,
 		};
-		console.log(user);
 		const backandValid = await loginInBase(user);
 		const formErrors = validateForm(backandValid);
 
