@@ -46,6 +46,7 @@ router.get(
 	authenticate,
 	TransactionController.getAllTransaction
 );
+router.get("/transaction/home", TransactionController.getTransactionToHome);
 router.get(
 	"/transaction/:id",
 	authenticate,

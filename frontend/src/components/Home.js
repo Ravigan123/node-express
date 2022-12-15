@@ -10,6 +10,8 @@ import { MDBInput } from "mdb-react-ui-kit";
 import { useLocation } from "react-router-dom";
 import Cookies from "js-cookie";
 import AuthContext from "./Auth/AuthContext";
+import NavScrollExample from "./Nav";
+import MonthTransaction from "./MonthTransaction";
 
 function Home() {
 	// axios.defaults.withCredentials = true;
@@ -25,29 +27,29 @@ function Home() {
 	// const location = useLocation();
 	const { logout } = useContext(AuthContext);
 
-	useEffect(() => {
-		isLogged();
-		console.log("object");
-	}, []);
+	// useEffect(() => {
+	// 	isLogged();
+	// 	console.log("object");
+	// }, []);
 
-	async function isLogged() {
-		let err;
-		// console.log(Cookies.get("access_token"));
-		try {
-			await axios
-				.get(`${process.env.REACT_APP_API_URL}test`, {
-					credentials: "same-origin",
-				})
-				.then((res) => {
-					console.log(res.data);
-				});
-		} catch (error) {
-			if (error.response.data === undefined)
-				err = "No connection to the server";
-			else err = error.response.data.message;
-		}
-		return err;
-	}
+	// async function isLogged() {
+	// 	let err;
+	// 	// console.log(Cookies.get("access_token"));
+	// 	try {
+	// 		await axios
+	// 			.get(`${process.env.REACT_APP_API_URL}test`, {
+	// 				credentials: "same-origin",
+	// 			})
+	// 			.then((res) => {
+	// 				console.log(res.data);
+	// 			});
+	// 	} catch (error) {
+	// 		if (error.response.data === undefined)
+	// 			err = "No connection to the server";
+	// 		else err = error.response.data.message;
+	// 	}
+	// 	return err;
+	// }
 
 	// async function ForgotBase(user) {
 	// 	let err;
@@ -97,16 +99,22 @@ function Home() {
 	// }
 
 	return (
-		<Container className='login'>
-			<h1>home</h1>
-			<Button
-				onClick={() => {
-					logout();
-				}}>
-				{" "}
-				wyloguj
-			</Button>
-		</Container>
+		<>
+			<NavScrollExample />
+			<MonthTransaction />
+			<MonthTransaction />
+			<MonthTransaction />
+		</>
+		// <Container className='login'>
+		// 	<h1>home</h1>
+		// 	<Button
+		// 		onClick={() => {
+		// 			logout();
+		// 		}}>
+		// 		{" "}
+		// 		wyloguj
+		// 	</Button>
+		// </Container>
 	);
 }
 
