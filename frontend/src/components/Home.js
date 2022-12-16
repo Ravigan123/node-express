@@ -12,6 +12,9 @@ import Cookies from "js-cookie";
 import AuthContext from "./Auth/AuthContext";
 import NavScrollExample from "./Nav";
 import MonthTransaction from "./MonthTransaction";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Footer from "./Footer";
 
 function Home() {
 	// axios.defaults.withCredentials = true;
@@ -101,9 +104,10 @@ function Home() {
 	return (
 		<>
 			<NavScrollExample />
-			<MonthTransaction />
-			<MonthTransaction />
-			<MonthTransaction />
+			<Container>
+				<MonthTransaction />
+			</Container>
+			<Footer />
 		</>
 		// <Container className='login'>
 		// 	<h1>home</h1>

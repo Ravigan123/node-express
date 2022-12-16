@@ -103,6 +103,87 @@ html {
 	font-size: 2rem;
 }
 
+ul {
+	list-style-type: none;
+}
+
+.month {
+	position: relative;
+	margin: 1em 0;
+	font-size: 1.6rem;
+	// color: rgb(241, 240, 240);
+	background-color: rgb(223, 219, 219);
+	text-align: center;
+	border-radius: 8px;
+
+	&__name {
+		padding: 1rem;
+		font-size: 2rem;
+		text-transform: uppercase;
+	}
+
+	&__underline {
+		margin: 0 auto 2rem;
+		width: 60px;
+		height: 4px;
+		background-color: var(--custom);
+	}
+
+	&__list {
+	}
+
+	&__item {
+		padding: 1rem;
+	}
+
+	&__more {
+		padding-top: 1rem;
+		padding-bottom: 2rem;
+	}
+
+	&__bnt {
+		font-size: 1.3rem;
+	}
+}
+
+h1 {
+	font-size: 30px;
+	text-transform: uppercase;
+}
+
+p {
+	font-size: 14px;
+}
+.hero-img {
+	position: relative;
+	height: 50vh;
+	background-image: url("../public/hero.jpg");
+	background-position: center;
+	background-size: cover;
+	background-attachment: fixed; /*fajne przewyjanie obrazka */
+	z-index: 0;
+}
+
+.hero-shadow {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.6);
+	z-index: -10;
+}
+
+.hero-text {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	height: 100%;
+	padding: 100px;
+	color: #fff;
+	text-align: center;
+	z-index: 5;
+}
+
 // .login {
 // 	position: relative;
 // 	min-height: 100vh;

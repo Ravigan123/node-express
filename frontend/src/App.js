@@ -10,6 +10,7 @@ import ResetPassword from "./components/Auth/ResetPassword";
 import Cookies from "js-cookie";
 import { AuthContextProvider } from "./components/Auth/AuthContext";
 import ProtectedRoute from "./components/Auth/ProtectedRoute";
+import OneMonth from "./components/OneMonth";
 
 function App() {
 	return (
@@ -22,6 +23,14 @@ function App() {
 						element={
 							<ProtectedRoute accessBy='auth'>
 								<Home />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path='/:month'
+						element={
+							<ProtectedRoute accessBy='auth'>
+								<OneMonth />
 							</ProtectedRoute>
 						}
 					/>

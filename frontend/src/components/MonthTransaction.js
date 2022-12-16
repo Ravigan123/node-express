@@ -21,21 +21,44 @@ function MonthTransaction() {
 
 	return (
 		<div className='month'>
-			<div className='month__name'></div>
-			<div className='month__list'>
-				<ul>
-					{tab.map((tran, index) => {
-						return (
-							<li ley={index}>
-								{tran.date + " " + tran.name + " " + tran.price + "zł"}
-							</li>
-						);
-					})}
-				</ul>
+			<div className='month__name'>grudzień</div>
+			<div className='month__name float-end'>
+				<button>Add </button>
 			</div>
-			<div className='month__more'>
-				<a href='/grudzien/'>Pokaż więcej </a>
+			<div class='row'>
+				<div className='month__income col col-lg-6'>
+					<h2 className='month__type'>przychody</h2>
+					<div className='month__list'>
+						<ul>
+							{tab.map((tran, index) => {
+								return (
+									<li ley={index} className='month__item'>
+										{tran.date + " " + tran.name + " " + tran.price + "zł"}
+									</li>
+								);
+							})}
+						</ul>
+					</div>
+					<p className='month__sum'>Suma: 2300</p>
+				</div>
+				<div class='month__expense col col-lg-6'>
+					<h2 className='month__type'>wydatki</h2>
+					<div className='month__list'>
+						<ul>
+							{tab.map((tran, index) => {
+								return (
+									<li ley={index} className='month__item'>
+										{tran.date + " " + tran.name + " " + tran.price + "zł"}
+									</li>
+								);
+							})}
+						</ul>
+					</div>
+					<p className='month__sum'>Suma: 2300</p>
+				</div>
 			</div>
+
+			<p className='month__summary'>Bilans</p>
 		</div>
 	);
 }
